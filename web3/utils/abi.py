@@ -27,6 +27,8 @@ from eth_abi.abi import (
     process_type,
 )
 
+from web3.utils.ens import is_ens_name
+
 from web3.utils.formatters import (
     recursive_map,
 )
@@ -143,9 +145,12 @@ def is_encodable(_type, value):
         max_length = int(sub)
         return len(value) <= max_length
     elif base == 'address':
-        if not is_address(value):
+        if is_ens_name(value):
+            return True
+        elif is_address(value):
+            return True
+        else:
             return False
-        return True
     else:
         raise ValueError("Unsupported type")
 
