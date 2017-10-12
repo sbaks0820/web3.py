@@ -30,6 +30,8 @@ from toolz.functoolz import (
     compose,
 )
 
+from ens import ENS
+
 from web3.exceptions import (
     BadFunctionCallOutput,
 )
@@ -53,6 +55,10 @@ from web3.utils.decorators import (
 )
 from web3.utils.empty import (
     empty,
+)
+from web3.utils.ens import (
+    is_ens_name,
+    validate_name_has_address,
 )
 from web3.utils.events import (
     get_event_data,
@@ -146,8 +152,13 @@ class Contract(object):
             validate_abi(val)
             return val
         elif key == 'address':
-            validate_address(val)
-            return to_normalized_address(val)
+            if is_ens_name(val):
+                ens = ENS.fromWeb3(cls.web3)
+                validate_name_has_address(ens, val)
+                return val
+            else:
+                validate_address(val)
+                return to_normalized_address(val)
         else:
             return val
 
