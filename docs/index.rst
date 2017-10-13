@@ -17,6 +17,7 @@ Contents
     filters
     contracts
     providers
+    ens_overview
     middleware
     examples
     web3.main
@@ -29,6 +30,7 @@ Contents
     web3.txpool
     web3.miner
     web3.admin
+    ens
     internals
     conventions
     releases
